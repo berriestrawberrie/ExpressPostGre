@@ -20,3 +20,27 @@ CREATE TABLE scores (
 	FOREIGN KEY (player_id) REFERENCES players(id),
 	FOREIGN KEY (game_id) REFERENCES games(id)
 );
+
+╔════════════════════════════════════════════════════╗
+║                AI DATA	  	             	     ║
+╚════════════════════════════════════════════════════╝
+INSERT INTO players (id, name, join_date) VALUES
+(1, 'Alice', '2025-01-10'),
+(2, 'Bob', '2025-02-15'),
+(3, 'Charlie', '2025-03-20'),
+(4, 'Diana', '2025-04-05'),
+(5, 'Eli', '2025-05-12'),      
+(6, 'Faye', '2025-06-18');     
+
+INSERT INTO games (id, title, genre) VALUES
+(1, 'Pixel Quest', 'Adventure'),
+(2, 'Speed Racer', 'Racing'),
+(3, 'Code Clash', 'Puzzle');
+
+INSERT INTO scores (id, player_id, game_id, score, date_played) VALUES
+(1, 1, 1, 850, '2025-07-01'),
+(2, 1, 2, 920, '2025-07-03'),
+(3, 2, 2, 780, '2025-07-04'),
+(4, 3, 3, 660, '2025-07-05'),
+(5, 4, 1, 990, '2025-07-06'),
+(6, 4, 3, 720, '2025-07-07');
