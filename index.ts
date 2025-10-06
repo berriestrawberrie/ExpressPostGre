@@ -15,6 +15,20 @@ const pool = new Pool({
   port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : undefined,
 });
 
+app.get("/", async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(
+      "SELECT players.name, scores.game_id, scores.score, players.join_date FROM players LEFT JOIN scores ON scores.player_id = players.id"
+    );
+    if (result.rows.length === 0) {
+      res.status(404).json({ message: "No data found." });
+    } else {
+      res.json(result.rows);
+    }
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+});
 app.get("/top-players", async (req: Request, res: Response) => {
   try {
     const result = await pool.query(
@@ -58,9 +72,25 @@ app.get("/recent-players", async (req: Request, res: Response) => {
     } else {
       res.json(result.rows);
     }
-  } catch (error: any) {}
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
 });
 
+app.get("/favorite-games", async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(
+      "SELECT players.name, games.title AS game_title, scores.score AS high_score FROM players JOIN scores ON scores.player_id = players.id JOIN games ON scores.game_id = games.id WHERE scores.score = (SELECT MAX(s2.score) FROM scores s2 WHERE s2.player_id = players.id)"
+    );
+    if (result.rows.length === 0) {
+      res.status(404).json({ message: "No data found." });
+    } else {
+      res.json(result.rows);
+    }
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+});
 app.listen(3000, () => {
   console.log("Server is running on port: 3000.");
 });

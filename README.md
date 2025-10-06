@@ -34,6 +34,8 @@ You’ll create an API that performs advanced database queries similar to those 
 
 Visit [localhost:3000](http://localhost:3000)
 
+Displays all the players in the table joined to their score data
+
 ### Endpoint: `GET /top-players`
 
 Returns the top 3 players with the highest total scores across all games, sorted in descending order.
@@ -49,7 +51,3 @@ Finds the most popular game genres based on the number of times they’ve been p
 ### Endpoint: `GET /recent-players`
 
 Lists all players who joined in the last 30 days.
-
-```
-
-```
