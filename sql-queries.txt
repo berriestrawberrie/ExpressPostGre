@@ -44,3 +44,49 @@ INSERT INTO scores (id, player_id, game_id, score, date_played) VALUES
 (4, 3, 3, 660, '2025-07-05'),
 (5, 4, 1, 990, '2025-07-06'),
 (6, 4, 3, 720, '2025-07-07');
+
+╔════════════════════════════════════════════════════╗
+║               TOP PLAYERS	  	             	     ║
+╚════════════════════════════════════════════════════╝
+SELECT 
+	players.name , 
+	SUM(scores.score) as total_score
+FROM players 
+JOIN scores ON players.id = scores.player_id
+GROUP BY players.name
+ORDER BY total_score DESC
+LIMIT 3;
+
+╔════════════════════════════════════════════════════╗
+║               INACTIVE PLAYERS	  	             ║
+╚════════════════════════════════════════════════════╝
+SELECT 
+	players.name , 
+	COUNT(scores.game_id)as games_played
+FROM players 
+LEFT JOIN scores ON players.id = scores.player_id
+GROUP BY players.name
+HAVING 
+    COUNT(scores.game_id) = 0;
+
+╔════════════════════════════════════════════════════╗
+║               POPULAR genre		  	             ║
+╚════════════════════════════════════════════════════╝
+SELECT 
+	games.genre, 
+	COUNT(scores.player_id)as num_players
+FROM games 
+LEFT JOIN scores ON games.id = scores.game_id
+GROUP BY games.genre
+ORDER BY num_players DESC;
+
+╔════════════════════════════════════════════════════╗
+║               JOIN IN LAST 30 DAYS		  	     ║
+╚════════════════════════════════════════════════════╝
+SELECT 
+	id,
+	name,
+	join_date
+FROM players 
+WHERE 
+    join_date >= CURRENT_DATE - INTERVAL '30 days';
